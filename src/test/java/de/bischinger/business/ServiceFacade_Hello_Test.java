@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+
 
 @RunWith(Arquillian.class)
 public class ServiceFacade_Hello_Test {
@@ -22,12 +23,6 @@ public class ServiceFacade_Hello_Test {
 
     @Test
     public void test() {
-        assertThat(serviceFacade.getHello()).isEqualTo("hello");
-    }
-
-    @Test
-    public void test2() {
-        //Does not deploy again
-        assertThat(serviceFacade.getPrint()).isEqualTo("print");
+        assertEquals(serviceFacade.getHello(),"hello");
     }
 }

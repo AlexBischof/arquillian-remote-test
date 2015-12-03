@@ -13,11 +13,7 @@ import java.io.File;
 public class DefaultDeployment {
 
     public static WebArchive create() {
-        File[] libs = Maven.resolver()
-                           .loadPomFromFile("pom.xml").resolve("org.assertj:assertj-core")
-                           .withTransitivity().as(File.class);
-
-        return ShrinkWrap.create(WebArchive.class, "mytest.war").addAsLibraries(libs)
-                         .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        return ShrinkWrap.create(WebArchive.class, "mytest.war")
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 }

@@ -8,6 +8,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
+        <jbossHome>/Users/bischofa/opt/jboss/wildfly-8.2.0.Final</jbossHome>
+
         <version.junit>4.12</version.junit>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -76,42 +78,19 @@
     </build>
     <profiles>
         <profile>
-            <id>arquillian-wildfly-managed</id>
+            <id>arquillian-wildfly8-managed</id>
             <build>
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.19</version>
                         <configuration>
+                            <forkMode>always</forkMode>
                             <systemPropertyVariables>
-                                <arquillian.launch>arquillian-wildfly-managed</arquillian.launch>
+                                <jbossHome>${jbossHome}</jbossHome>
                             </systemPropertyVariables>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.wildfly</groupId>
-                                            <artifactId>wildfly-dist</artifactId>
-                                            <version>${version.org.wildfly}</version>
-                                            <type>zip</type>
-                                            <overWrite>false</overWrite>
-                                            <outputDirectory>${project.build.directory}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -125,7 +104,7 @@
             </dependencies>
         </profile>
         <profile>
-            <id>arquillian-wildfly-remote</id>
+            <id>arquillian-wildfly8-remote</id>
             <build>
                 <plugins>
                     <plugin>
@@ -133,7 +112,7 @@
                         <version>2.19</version>
                         <configuration>
                             <systemPropertyVariables>
-                                <arquillian.launch>arquillian-wildfly-remote</arquillian.launch>
+                                <arquillian.launch>arquillian-wildfly8-remote</arquillian.launch>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -149,7 +128,7 @@
             </dependencies>
         </profile>
         <profile>
-            <id>arquillian-wildfly-embedded</id>
+            <id>arquillian-wildfly8-embedded</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -159,10 +138,14 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.19</version>
                         <configuration>
+                            <forkMode>always</forkMode>
                             <systemPropertyVariables>
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                                <arquillian.launch>arquillian-wildfly-embedded</arquillian.launch>
+                                <arquillian.launch>arquillian-wildfly8-embedded</arquillian.launch>
+                                <jbossHome>${jbossHome}</jbossHome>
+                                <module.path>${jbossHome}/modules</module.path>
                             </systemPropertyVariables>
+                            <redirectTestOutputToFile>false</redirectTestOutputToFile>
                         </configuration>
                     </plugin>
                 </plugins>
